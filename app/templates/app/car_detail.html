@@ -36,6 +36,8 @@
             <h2 class="text-success mb-4">
                 {{ car.price }} €
             </h2>
+                <a href="{% url 'car_update' car.id %}"><button type="button" class="btn btn-primary">Change</button></a>
+            <a href="{% url 'car_delete' car.id %}" ><button type="button" class="btn btn-danger">Delete</button></a>
         </div>
     </div>
 </div>

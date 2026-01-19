@@ -1,9 +1,16 @@
 from django.shortcuts import render, redirect
+
+from .forms import CarCreateForm
 from .models import Car, Category
 
 
 def index_view(request):
     cars = Car.objects.all()
+
+    if 'search' in request.GET:
+        search = request.GET['search']
+
+        cars = cars.filter(title__icontains=search)
 
     return render(request, 'app/index.html', {'cars': cars})
 
@@ -33,3 +40,47 @@ def car_create_view(request):
         return redirect("index")
 
     return render(request, 'app/car_create.html', {'categories': categories})
+
+
+def car_update_view(request, car_id):
+    categories = Category.objects.all()
+    car = Car.objects.get(id=car_id)
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        category_id = request.POST['category_id']
+        model = request.POST['model']
+        year = request.POST['year']
+        price = request.POST['price']
+        image = request.FILES['image']
+
+        category = Category.objects.get(id=category_id)
+
+        car.title = title
+        car.category = category
+        car.model = model
+        car.year = year
+        car.price = price
+        car.image = image
+
+        car.save()
+
+        return redirect("index")
+
+    return render(request=request, template_name='app/car_update.html', context={'categories': categories, 'car': car})
+
+def car_delete_view(request, car_id):
+    car = Car.objects.get(id=car_id)
+    car.delete()
+
+    return redirect("index")
+
+def car_create_2(request):
+    if request.method == 'POST':
+        form = CarCreateForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect("index")
+    form = CarCreateForm()
+    return render(request, 'app/car_create_2.html', {'form': form})
