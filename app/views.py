@@ -84,3 +84,5 @@ def car_create_2(request):
             return redirect("index")
     form = CarCreateForm()
     return render(request, 'app/car_create_2.html', {'form': form})
+
+#123
