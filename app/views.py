@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 from .forms import CarCreateForm
 from .models import Car, Category
@@ -85,4 +88,33 @@ def car_create_2(request):
     form = CarCreateForm()
     return render(request, 'app/car_create_2.html', {'form': form})
 
-#123
+def user_register_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Вы успешно создали аккаунт')
+            return redirect("index")
+
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f'{error}')
+    form = UserCreationForm()
+    return render(request, 'app/user_register.html', context={'form': form})
+
+def user_login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            messages.success(request, 'Вы успешно вошли в систему')
+            return redirect("index")
+        messages.error(request, 'Неправильный логин или пароль')
+
+    return render(request, 'app/user_login.html')
+
+

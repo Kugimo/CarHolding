@@ -18,9 +18,25 @@
 </style>
 <body>
     <br><br><br>
-        <a href="{% url 'car_create' %}"><button type="button" class="btn btn-primary">Создать</button></a>
+        <a href="{% url 'car_create' %}"><button type="button" class="btn btn-dark">Создать</button></a>
+        <a href="{% url 'user_register' %}"><button type="button" class="btn btn-primary">Регистрация</button></a>
+        <a href="{% url 'user_login' %}"><button type="button" class="btn btn-primary">Вход</button></a>
+        <h1>{{ request.user.username }}</h1>
+
     <br><br><br>
         <center>
+
+            {% if messages %}
+                <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <form method="get" action=".">
                 <input type="text" name="search">
             </form>
@@ -44,4 +60,17 @@
     </div>
 
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const alertList = document.querySelectorAll('.alert');
+    alertList.forEach((alert) => {
+        setTimeout(() => {
+            // Bootstrap 5 alert dispose
+            const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+            bsAlert.close();
+        }, 5000); // 5 секунд
+    });
+});
+</script>
+
 </html>
