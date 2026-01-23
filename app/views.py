@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from .forms import CarCreateForm
 from .models import Car, Category
@@ -79,11 +79,15 @@ def car_delete_view(request, car_id):
     return redirect("index")
 
 def car_create_2(request):
+    if not request.user.is_authenticated:
+        return redirect("index")
     if request.method == 'POST':
         form = CarCreateForm(request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
             return redirect("index")
     form = CarCreateForm()
     return render(request, 'app/car_create_2.html', {'form': form})
@@ -116,5 +120,10 @@ def user_login_view(request):
         messages.error(request, 'Неправильный логин или пароль')
 
     return render(request, 'app/user_login.html')
+
+def user_logout_view(request):
+    logout(request)
+    messages.success(request, 'Вы успешно вышли из системы')
+    return redirect("index")
 
 

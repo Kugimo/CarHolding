@@ -21,7 +21,12 @@
         <a href="{% url 'car_create' %}"><button type="button" class="btn btn-dark">Создать</button></a>
         <a href="{% url 'user_register' %}"><button type="button" class="btn btn-primary">Регистрация</button></a>
         <a href="{% url 'user_login' %}"><button type="button" class="btn btn-primary">Вход</button></a>
-        <h1>{{ request.user.username }}</h1>
+        <a href="{% url 'user_logout' %}"><button type="button" class="btn btn-danger">Выход</button></a>
+        {% if request.user.is_authenticated %}
+            <h2>{{ request.user.username }}</h2>
+        {% else %}
+            <h2>Вам нужно войти в систему</h2>
+        {% endif %}
 
     <br><br><br>
         <center>
