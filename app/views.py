@@ -46,6 +46,16 @@ def car_create_view(request):
 
 
 def car_update_view(request, car_id):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'Нужно выойти в систему')
+        return redirect("index")
+
+    car = Car.objects.get(id=car_id)
+    if car.user != request.user:
+        messages.warning(request, 'Нельзя менять чужие машины')
+        return redirect("index")
+
+
     categories = Category.objects.all()
     car = Car.objects.get(id=car_id)
 
