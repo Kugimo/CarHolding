@@ -10,10 +10,17 @@ from .models import Car, Category
 def index_view(request):
     cars = Car.objects.all()
 
-    if 'search' in request.GET:
-        search = request.GET['search']
-
+    search = request.GET.get('search')
+    if search:
         cars = cars.filter(title__icontains=search)
+
+    sort = request.GET.get('sort')
+    allowed = ['title', 'model', 'year', 'price', 'category']
+
+    if sort:
+        field = sort.lstrip('-')
+        if field in allowed:
+            cars = cars.order_by(sort)
 
     return render(request, 'app/index.html', {'cars': cars})
 
@@ -47,12 +54,12 @@ def car_create_view(request):
 
 def car_update_view(request, car_id):
     if not request.user.is_authenticated:
-        messages.warning(request, 'Нужно выойти в систему')
+        messages.warning(request, 'You need to log in')
         return redirect("index")
 
     car = Car.objects.get(id=car_id)
     if car.user != request.user:
-        messages.warning(request, 'Нельзя менять чужие машины')
+        messages.warning(request, 'You don’t have permission to edit this car')
         return redirect("index")
 
 
@@ -83,8 +90,17 @@ def car_update_view(request, car_id):
     return render(request=request, template_name='app/car_update.html', context={'categories': categories, 'car': car})
 
 def car_delete_view(request, car_id):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'You need to log in to continue')
+        return redirect("index")
+
     car = Car.objects.get(id=car_id)
+    if car.user != request.user:
+        messages.warning(request, 'You do not have permission to delete this car')
+        return redirect("index")
+
     car.delete()
+    messages.success(request, 'The car has been deleted')
 
     return redirect("index")
 
@@ -107,7 +123,7 @@ def user_register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Вы успешно создали аккаунт')
+            messages.success(request, f'Your account has been created successfully')
             return redirect("index")
 
         for field, errors in form.errors.items():
@@ -125,15 +141,27 @@ def user_login_view(request):
 
         if user:
             login(request, user)
-            messages.success(request, 'Вы успешно вошли в систему')
+            messages.success(request, 'You have successfully signed in')
             return redirect("index")
-        messages.error(request, 'Неправильный логин или пароль')
+        messages.error(request, 'Incorrect username or password')
 
     return render(request, 'app/user_login.html')
 
 def user_logout_view(request):
     logout(request)
-    messages.success(request, 'Вы успешно вышли из системы')
+    messages.success(request, 'You have successfully signed out')
     return redirect("index")
+
+def user_cars_view(request):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'You need to sign in to access this page')
+        return redirect("index")
+    car = Car.objects.filter(user=request.user)
+    return render(request, 'app/user_cars.html', {'cars': car})
+
+
+
+
+
 
 

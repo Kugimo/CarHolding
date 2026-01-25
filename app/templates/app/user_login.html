@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Войти</title>
+<title>Login</title>
 <style>
 body {
     background-color: #f0f2f5;
@@ -95,7 +95,7 @@ button:hover {
 <body>
 
 <form method="post" action=".">
-    <h2>Войти</h2>
+    <h2>Login</h2>
     {% csrf_token %}
 
 
@@ -116,7 +116,7 @@ button:hover {
 
 
     <div class="field-wrapper">
-        <input type="text" name="username" placeholder="Логин">
+        <input type="text" name="username" placeholder="Username">
         {% if form.username.errors %}
             <div class="error-text">
                 {% for error in form.username.errors %}
@@ -128,7 +128,7 @@ button:hover {
 
 
     <div class="field-wrapper">
-        <input type="password" name="password" placeholder="Пароль">
+        <input type="password" name="password" placeholder="Password">
         {% if form.password.errors %}
             <div class="error-text">
                 {% for error in form.password.errors %}
@@ -138,7 +138,7 @@ button:hover {
         {% endif %}
     </div>
 
-    <button type="submit">Войти</button>
+    <button type="submit">Login</button>
 </form>
 
 </body>

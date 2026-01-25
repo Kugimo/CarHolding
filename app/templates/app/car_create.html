@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create Car</title>
 </head>
 <body>
     <center>
@@ -10,30 +10,30 @@
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <label>Название: </label>
+            <label>Title: </label>
             <input type="text" name="title"><br><br>
 
-            <label>Категория: </label>
-                <select name="category_id">
-                    {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.title }}</option>
-                    {% endfor %}
-                </select>
+            <label>Category: </label>
+            <select name="category_id">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.title }}</option>
+                {% endfor %}
+            </select>
             <br><br>
 
-            <label>Модель: </label>
+            <label>Model: </label>
             <input type="text" name="model"><br><br>
 
-            <label>Год выпуска: </label>
+            <label>Year: </label>
             <input type="number" name="year"><br><br>
 
-            <label>Цена: </label>
+            <label>Price: </label>
             <input type="number" name="price"><br><br>
 
-            <label>Фото: </label>
+            <label>Image: </label>
             <input type="file" name="image"><br><br>
 
-            <button type="submit"> Создать </button>
+            <button type="submit">Create</button>
 
         </form>
 

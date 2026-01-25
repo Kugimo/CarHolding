@@ -7,14 +7,14 @@
 <body>
 
 <center>
-    <h1> Изменение </h1>
+    <h1> Edit </h1>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <label>Название: </label>
+        <label>Title: </label>
         <input type="text" name="title" placeholder="Enter the car name" value="{{ car.title }}"><br><br>
 
-        <label>Категория: </label>
+        <label>Category: </label>
             <select name="category_id">
                 {% for category in categories %}
                     <option value="{{ category.id }}">{{ category.title }}</option>
@@ -22,19 +22,19 @@
             </select>
             <br><br>
 
-        <label>Модель: </label>
+        <label>Model: </label>
         <input type="text" name="model" value="{{ car.model }}"><br><br>
 
-        <label>Год выпуска: </label>
+        <label>Year: </label>
         <input type="number" name="year" value="{{ car.year }}"><br><br>
 
-        <label>Цена: </label>
+        <label>Price: </label>
         <input type="number" name="price" value="{{ car.price }}"><br><br>
 
-        <label>Фото: </label>
+        <label>Image: </label>
         <input type="file" name="image" value="{{ car.image.url }}"><br><br>
 
-        <button type="submit"> Сохранить </button>
+        <button type="submit"> Save </button>
 
 
     </form>
