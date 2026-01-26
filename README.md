@@ -3,6 +3,8 @@
 A lightweight Django application that allows users to create, browse, and manage car listings.  
 Includes authentication, personal dashboards, search, sorting, and a clean Bootstrap‑based UI.
 
+This is an educational project created for learning Django and practicing web development skills.
+
 ---
 
 ## Features
