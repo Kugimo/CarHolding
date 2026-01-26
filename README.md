@@ -52,21 +52,21 @@ Includes authentication, personal dashboards, search, sorting, and a clean Boots
 git clone <your-repo-url>
 cd CarHolding
 
-2. Create a virtual environment
+### 2. Create a virtual environment
 
 python -m venv venv
 source venv/bin/activate   # Linux/Mac
 venv\Scripts\activate      # Windows
 
-3. Install dependencies
+### 3. Install dependencies
 
 pip install -r requirements.txt
 
-4. Apply migrations
+### 4. Apply migrations
 
 python manage.py  migrate
 
-5. Run the development server
+### 5. Run the development server
 
 python manage.py  runserver
 
