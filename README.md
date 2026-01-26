@@ -32,18 +32,6 @@ Includes authentication, personal dashboards, search, sorting, and a clean Boots
 - Dropdown sorting  
 - Flash messages  
 
----
-
-## Tech Stack
-
-| Technology | Purpose |
-|-----------|---------|
-| Django | Backend, ORM, authentication |
-| SQLite / PostgreSQL | Database |
-| Bootstrap 5 | Frontend styling |
-| Pillow | Image handling |
-
----
 
 ## Installation
 
